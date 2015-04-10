@@ -2,6 +2,7 @@ var Hapi = require('hapi');
 var server = new Hapi.Server();
 var path = require('path');
 var logger = require('util/logger').getLogger('app');
+var bundle = require('asset/public/server.js');
 
 server.connection({
   host: 'localhost',
@@ -30,9 +31,10 @@ server.route({
   path: '/',
   handler: function ( req, reply ) {
     'use strict';
-    reply.view('index', {
-      title: 'Home'
-    });
+    reply(bundle);
+    // reply.view('index', {
+    //   title: 'Home'
+    // });
   }
 });
 

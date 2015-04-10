@@ -8,6 +8,8 @@ var pngmin = require('gulp-pngmin');
 var mifify = require('gulp-minify-css');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
+var gulp = require('gulp');
+var react = require('gulp-react');
 
 var config = {
   src: './asset/src',
@@ -41,13 +43,22 @@ var browserifyRegister = function (entryPoint) {
   .transform('uglifyify')
   .bundle()
   .pipe(source('bundle.' + entryPoint + '.js'))
-  .pipe(gulp.dest(config.dest))
+  .pipe(gulp.dest(config.dest));
 };
 
-['client', 'server'].forEach(function(node){
+['client'].forEach(function(node){
   gulp.task('browserify-' + node, function() {
     return browserifyRegister(node);
   });
+});
+
+gulp.task('react', function () {
+  return gulp.src(config.src + '/js/server.jsx')
+    .pipe(react())
+    .pipe(gulp.dest(config.dest + '/'))
+    .on('error', function(err){
+      console.log(err);
+    });
 });
 
 gulp.task('pngmin', function () {
@@ -84,7 +95,7 @@ gulp.task('img', [
 
 gulp.task('browserify', [
   'browserify-client',
-  'browserify-server',
+  'react',
 ]);
 
 gulp.task('default', [
