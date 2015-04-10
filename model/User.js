@@ -6,9 +6,8 @@ var SALT_WORK_FACTOR = require('util/CONSTANT').SALT_WORK_FACTOR;
 var logger = require('util/logger')('User');
 var Q = require('q');
 
-var newModel = db.model('User', modelUser);
-
 var hashPassword = function(next) {
+  'use strict';
   var user = this;
   if (!user.isModified('password')){
     return next();
@@ -48,6 +47,7 @@ var hashPassword = function(next) {
 };
 
 var comparePassword = function(candidatePassword, hashedPassword, callBack) {
+  'use strict';
   bcrypt.compare(candidatePassword, hashedPassword, function(err, isMatch) {
     if (err) {
       logger(err);
@@ -76,7 +76,6 @@ var UserSchema = new mongoose.Schema({
   }]
 });
 var UserModel = db.model('Users', UserSchema );
-
 
 UserModel.methods.comparePassword = comparePassword;
 UserModel.pre('save', hashPassword);
