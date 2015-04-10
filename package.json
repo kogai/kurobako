@@ -6,8 +6,8 @@
   "scripts": {
     "vg-start": "vagrant up --provision-with shell",
     "vg-build": "vagrant up --provision-with file",
-    "app": "env NODE_PATH=./ app",
-    "dev": "env NODE_PATH=./ node-dev --debug app",
+    "app": "env NODE_PATH=./ node app.js",
+    "dev": "env NODE_PATH=./ node-dev --debug app.js",
     "app-production": "env NODE_PATH=./ ./node_modules/.bin start app.js",
     "test": "env NODE_PATH=./ ./node_modules/.bin/mocha"
   },
@@ -50,6 +50,7 @@
     "moment-timezone": "^0.3.1",
     "mongoose": "^4.0.1",
     "object-assign": "^2.0.0",
+    "q": "^1.2.0",
     "react": "^0.13.1",
     "should": "^5.2.0",
     "superagent": "^1.1.0"

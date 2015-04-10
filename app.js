@@ -30,7 +30,9 @@ server.route({
   path: '/',
   handler: function ( req, reply ) {
     'use strict';
-    reply.view('index');
+    reply.view('index', {
+      title: 'Home'
+    });
   }
 });
 

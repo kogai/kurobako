@@ -82,6 +82,11 @@ gulp.task('img', [
   'copy'
 ]);
 
+gulp.task('browserify', [
+  'browserify-client',
+  'browserify-server',
+]);
+
 gulp.task('default', [
   'sass',
   'browserify',
