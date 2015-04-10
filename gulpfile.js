@@ -2,7 +2,6 @@ var gulp = require('gulp');
 var util = require('gulp-util');
 var data = require('gulp-data');
 var newer = require('gulp-newer');
-var jade = require('gulp-jade');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var pngmin = require('gulp-pngmin');
@@ -14,31 +13,6 @@ var config = {
   src: './asset/src',
   dest: './asset/public'
 };
-
-gulp.task('jade', function () {
-  'use strict';
-  return (
-    gulp.src([
-  		config.src + '/jade/!(_)*.jade',
-  		config.src + '/jade/**/!(_)*.jade',
-  		config.src + '/jade/**/**/!(_)*.jade'
-    ])
-    .pipe(
-      data(function (file) {
-        return require(config.src + '/jade/config.json')
-      })
-    )
-    .pipe(newer(config.dest))
-    .pipe(jade())
-    .pipe(
-      gulp.dest(config.dest)
-    )
-    .on('error', function (error) {
-      util.beep();
-      console.log(error);
-    })
-  );
-});
 
 gulp.task('sass', function () {
   'use strict';
@@ -55,6 +29,7 @@ gulp.task('sass', function () {
 });
 
 var browserifyRegister = function (entryPoint) {
+  'use strict';
   browserify({
     entries: [
       config.src + '/js/' + entryPoint + '.jsx',
@@ -65,11 +40,7 @@ var browserifyRegister = function (entryPoint) {
   .transform('reactify')
   .transform('uglifyify')
   .bundle()
-  .pipe
-    (source(
-      'bundle.' + entryPoint + '.js'
-    )
-  )
+  .pipe(source('bundle.' + entryPoint + '.js'))
   .pipe(gulp.dest(config.dest))
 };
 
@@ -112,17 +83,11 @@ gulp.task('img', [
 ]);
 
 gulp.task('default', [
-  'jade',
   'sass',
   'browserify',
   'img',
 ], function(){
   'use strict';
-  gulp.watch([
-    config.src + '/jade/*.jade',
-    config.src + '/jade/**/*.jade',
-    config.src + '/jade/**/**/*.jade'
-  ], ['jade']);
   gulp.watch([
     config.src + '/sass/*.sass',
     config.src + '/sass/**/*.sass',

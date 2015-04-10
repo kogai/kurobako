@@ -1,1 +1,1 @@
-#プロジェクトの雛形
+#kurobako project
