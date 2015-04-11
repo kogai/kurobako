@@ -31,10 +31,11 @@ server.route({
   path: '/',
   handler: function ( req, reply ) {
     'use strict';
-    reply(bundle);
-    // reply.view('index', {
-    //   title: 'Home'
-    // });
+
+    reply.view('index', {
+      title: 'Home',
+      bundle: bundle
+    });
   }
 });
 

@@ -1,4 +1,6 @@
 var React = require('react');
+var reactAsync = require('react-async');
+var renderToStringAsync = reactAsync.renderToStringAsync
 var http = require('http');
 
 var Index = React.createClass({
@@ -8,13 +10,8 @@ var Index = React.createClass({
     }
   },
   componentWillMount: function () {
-    console.log('componentWillMount');
-    process.nextTick(function(){
-      console.log('componentWillMount Async');
-    });
   },
   render: function () {
-    console.log('render');
     return (
       <h1>Hello, server.</h1>
     );
