@@ -1,8 +1,8 @@
 module.exports = function(property){
   var credential;
   switch (process.env.env){
-    case 'dev':
-      credential = require('../credential');
+    case 'ci':
+      credential = process.env;
       break;
     case 'heroku':
       credential = process.env;
