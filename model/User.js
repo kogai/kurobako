@@ -3,7 +3,7 @@ var mongodb = require('util/credential')('mongodb');
 var db = mongoose.createConnection(mongodb);
 var bcrypt = require('bcrypt');
 var SALT_WORK_FACTOR = require('util/CONSTANT').SALT_WORK_FACTOR;
-var logger = require('util/logger')('User');
+var logger = require('util/logger').getLogger('User');
 var Q = require('q');
 
 var hashPassword = function(next) {
@@ -70,14 +70,15 @@ var UserSchema = new mongoose.Schema({
   },
   verifyId: String,
   isVerified: Boolean,
+  lastModified: Date, 
   career: [{
     companyId: String,
     companyName: String,
   }]
 });
-var UserModel = db.model('Users', UserSchema );
+UserSchema.methods.comparePassword = comparePassword;
+UserSchema.pre('save', hashPassword);
 
-UserModel.methods.comparePassword = comparePassword;
-UserModel.pre('save', hashPassword);
+var UserModel = db.model('Users', UserSchema );
 
 module.exports = UserModel;

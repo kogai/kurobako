@@ -8,13 +8,19 @@ var CompanySchema = new mongoose.Schema({
   	required : true
   },
   industry: String,
-  id: Number,
+  pageId: {
+    type: Number,
+    required: true,
+    index: {
+      unique: true
+    }
+  },
   annualSale: Number,
   numberOfEmployees: Number,
   reputation: [{
     userId: String,
-    wageLevel: Number,
-    workingHours: Number,
+    wageLevel: String,
+    workingHours: String,
     holidayWork: Number,
     paidVacationDegestion: Number
   }],

@@ -1,5 +1,5 @@
 {
-  "name": "scaffold",
+  "name": "kurobako",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -9,18 +9,18 @@
     "app": "env NODE_PATH=./ node app.js",
     "dev": "env NODE_PATH=./ node-dev --debug app.js",
     "app-production": "env NODE_PATH=./ ./node_modules/.bin start app.js",
-    "test": "env NODE_PATH=./ ./node_modules/.bin/mocha"
+    "test": "env NODE_PATH=./ ./node_modules/.bin/mocha --recursive"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kogai/scaffold.git"
+    "url": "https://github.com/kogai/kurobako.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kogai/scaffold/issues"
+    "url": "https://github.com/kogai/kurobako/issues"
   },
-  "homepage": "https://github.com/kogai/scaffold",
+  "homepage": "https://github.com/kogai/kurobako",
   "devDependencies": {
     "browserify": "^9.0.8",
     "gulp": "^3.8.11",
@@ -33,11 +33,13 @@
     "gulp-sass": "^1.3.3",
     "gulp-sourcemaps": "^1.5.1",
     "gulp-util": "^3.0.4",
+    "mockgoose": "^1.10.7",
     "reactify": "^1.1.0",
     "uglifyify": "^3.0.1",
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
+    "bcrypt": "^0.8.2",
     "es5-shim": "^4.1.0",
     "fibers": "^1.0.5",
     "flux": "^2.0.1",
@@ -50,7 +52,7 @@
     "log4js-extend": "^0.1.2",
     "mocha": "^2.2.4",
     "moment-timezone": "^0.3.1",
-    "mongoose": "^4.0.1",
+    "mongoose": "^3.8.26",
     "object-assign": "^2.0.0",
     "q": "^1.2.0",
     "react": "^0.13.1",

@@ -7,6 +7,9 @@ module.exports = function(property){
     case 'heroku':
       credential = process.env;
       break;
+    default:
+      credential = require('../credential');
+      break;
   }
   return credential[property];
 };
