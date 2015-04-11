@@ -12,6 +12,7 @@ var gulp = require('gulp');
 var react = require('gulp-react');
 
 var config = {
+  env: 'development',
   src: './asset/src',
   dest: './asset/public'
 };
@@ -32,12 +33,16 @@ gulp.task('sass', function () {
 
 var browserifyRegister = function (entryPoint) {
   'use strict';
+  var debug = true;
+  if(config.env === 'production'){
+    debug = false;
+  }
   browserify({
     entries: [
       config.src + '/js/' + entryPoint + '.jsx',
     ],
     extensions: ['.jsx'],
-    debug: true
+    debug: debug
   })
   .transform('reactify')
   .transform('uglifyify')
@@ -98,10 +103,18 @@ gulp.task('browserify', [
   'react',
 ]);
 
-gulp.task('default', [
+gulp.task('compile', [
   'sass',
   'browserify',
   'img',
+]);
+
+gulp.task('isProduction', function(){
+  config.env = 'production'
+});
+
+gulp.task('default', [
+  'compile'
 ], function(){
   'use strict';
   gulp.watch([
@@ -120,3 +133,8 @@ gulp.task('default', [
     config.src + '/image/**/**/*'
   ], ['img']);
 });
+
+gulp.task('build', [
+  'isProduction',
+  'compile'
+]);
