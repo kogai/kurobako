@@ -14,7 +14,7 @@ describe('Companyモデルのテスト', function () {
   var newCompanyErrReslut;
   before(function (done) {
     newCompany = new Company({
-      name: 'ダミー会社全部',
+      name: 'ダミー会社',
       industry: 'IT',
       pageId: 1,
       annualSale: 1000,
@@ -36,6 +36,8 @@ describe('Companyモデルのテスト', function () {
 
   it('Companyコレクションが見つかる', function (done) {
     Company.find({}, function(err, companies){
+      console.log('err', err);
+      console.log('companies', companies);
 	    companies[0].should.have.property('name');
 	    companies[0].should.have.property('industry');
 	    companies[0].should.have.property('pageId');
