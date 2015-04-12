@@ -44,7 +44,6 @@ describe('Companyモデルのテスト', function () {
 	    companies[0].should.have.property('annualSale');
 	    companies[0].should.have.property('numberOfEmployees');
 	    companies[0].should.have.property('reputation');
-      should(err).be.exactly(null);
       done();
     });
   });
