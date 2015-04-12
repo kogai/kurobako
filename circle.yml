@@ -9,17 +9,9 @@ machine:
   node:
     version: 0.12.0
 
+  mongodb:
+    version: 3.0.1
+
 test:
   post:
     - npm run test
-
-# deployment:
-#   staging:
-#     branch: develop
-#     commands:
-#       - ./github.sh
-
-  # production_app:
-  #   branch: master
-  #   commands:
-      # - ./production.sh
