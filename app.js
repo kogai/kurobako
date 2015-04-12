@@ -1,35 +1,59 @@
-var Hapi = require('hapi');
-var server = new Hapi.Server();
+var express = require('express');
 var path = require('path');
-var jade = require('jade');
+var http = require('http');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var bodyParser = require('body-parser');
+var passport = require('passport');
+
+var credentialSession = require('util/credential')('session');
 var logger = require('util/logger').getLogger('app');
-var route = require('route/index.js');
 
-// Setting
-server.connection({
-  host: 'localhost',
-  port: 3000
-});
+var route = require('route/');
 
-server.views({
-    engines: {
-      jade: jade
-    },
-    path: path.join(__dirname, 'view')
-});
+var app = express();
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
 
-// Routing
-server.route(route.asset);
-server.route(route.root);
-server.route(route.company.root);
-server.route(route.account.root);
-server.route(route.notFound);
+app.set('views', path.join(__dirname, 'view'));
+app.set('view engine', 'jade');
+app.set('port', process.env.PORT || 3000);
 
-// Running
-server.start(function (err) {
-  'use strict';
-  if(err){
-    logger.info(err);
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+app.use(cookieParser());
+app.use(session({
+  secret: credentialSession,
+  cookie: {
+    maxAge: 30 * 24 * 60 * 60 * 1000
   }
-  logger.info('server running on ' + (process.env.PORT || server.info.port) + '...');
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/', route);
+
+app.use(function(req, res, next) {
+    'use strict';
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+server.listen(
+  app.get('port'),
+  function () {
+    'use strict';
+    logger.info('Express server listening on port ' + server.address().port);
+  }
+);
+
+io.sockets.on('connection', function (socket) {
+  'use strict';
+	socket.emit('event', {});
 });

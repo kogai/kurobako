@@ -36,8 +36,6 @@ describe('Companyモデルのテスト', function () {
 
   it('Companyコレクションが見つかる', function (done) {
     Company.find({}, function(err, companies){
-      console.log('err', err);
-      console.log('companies', companies);
 	    companies[0].should.have.property('name');
 	    companies[0].should.have.property('industry');
 	    companies[0].should.have.property('pageId');
