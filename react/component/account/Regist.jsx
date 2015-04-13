@@ -1,5 +1,5 @@
 var React = require('react');
-var Btn = require('asset/server/component/util/Btn');
+var Btn = require('../../component/util/Btn');
 
 var Regist = React.createClass({
   render: function () {

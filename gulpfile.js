@@ -9,12 +9,14 @@ var mifify = require('gulp-minify-css');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var react = require('gulp-react');
+var runSequence = require('run-sequence');
 
 var config = {
   env: 'development',
-  src: './src',
+  src: './asset-src',
+  srcReact: './react',
   dest: './asset/public',
-  destServer: './asset/server'
+  destReact: './asset/react'
 };
 
 gulp.task('sass', function () {
@@ -31,38 +33,37 @@ gulp.task('sass', function () {
   );
 });
 
+gulp.task('react-base', function () {
+  'use strict';
+  return gulp.src([
+      config.srcReact + '/*.jsx',
+      config.srcReact + '/**/*.jsx',
+      config.srcReact + '/**/**/*.jsx'
+    ])
+    .pipe(react())
+    .pipe(gulp.dest(config.destReact + '/'))
+    .on('error', function(err){
+      console.log(err);
+    });
+});
+
 gulp.task('react-client', function() {
   'use strict';
   var opt = {
     entries: [
-      config.src + '/js/client.jsx'
+      config.destReact + '/client.js'
     ],
-    extensions: ['.jsx'],
+    extensions: ['.js'],
     debug: true
   };
   if(config.env === 'production'){
     opt.debug = false;
   }
   return browserify(opt)
-  .transform('reactify')
   .transform('uglifyify')
   .bundle()
   .pipe(source('bundle.js'))
   .pipe(gulp.dest(config.dest));
-});
-
-gulp.task('react-server', function () {
-  'use strict';
-  return gulp.src([
-      config.src + '/js/*.jsx',
-      config.src + '/js/**/*.jsx',
-      config.src + '/js/**/**/*.jsx'
-    ])
-    .pipe(react())
-    .pipe(gulp.dest(config.destServer + '/'))
-    .on('error', function(err){
-      console.log(err);
-    });
 });
 
 gulp.task('pngmin', function () {
@@ -99,10 +100,14 @@ gulp.task('img', [
   'copy'
 ]);
 
-gulp.task('react', [
-  'react-client',
-  'react-server'
-]);
+gulp.task('react', function (callback) {
+  'use strict';
+  runSequence(
+    'react-base',
+    'react-client',
+    callback
+  );
+});
 
 gulp.task('compile', [
   'sass',
@@ -125,12 +130,9 @@ gulp.task('default', [
     config.src + '/sass/**/**/*.sass'
   ], ['sass']);
   gulp.watch([
-    config.src + '/js/*.jsx',
-    config.src + '/js/**/*.jsx',
-    config.src + '/js/**/**/*.jsx',
-    config.src + '/js/*.js',
-    config.src + '/js/**/*.js',
-    config.src + '/js/**/**/*.js'
+    config.srcReact + '/*.jsx',
+    config.srcReact + '/**/*.jsx',
+    config.srcReact + '/**/**/*.jsx'
   ], ['react']);
   gulp.watch([
     config.src + '/image/*',
@@ -139,7 +141,11 @@ gulp.task('default', [
   ], ['img']);
 });
 
-gulp.task('build', [
-  'isProduction',
-  'compile'
-]);
+gulp.task('build', function (callback) {
+  'use strict';
+  runSequence(
+    'isProduction',
+    'compile',
+    callback
+  );
+});

@@ -1,5 +1,5 @@
-var Dispatcher = require('./Dispatcher.jsx');
-var Constants = require('./Constants.jsx');
+var Dispatcher = require('./Dispatcher');
+var Constant = require('./Constant');
 
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
@@ -34,8 +34,8 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
 Dispatcher.register(function(action){
   switch(action.actionType){
-    case Constants.SPOT_CATEGORIES:
-      fetchContent(action.contents);
+    case Constant.ACCOUNT_REGIST:
+      // fetchContent(action.contents);
       AppStore.emitChange();
       break;
     default:

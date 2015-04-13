@@ -1,5 +1,7 @@
 var React = require('react');
-var Btn = require('./component/util/Btn.jsx');
+var Btn = require('./component/util/Btn');
+var Login = require('./component/account/Login');
+var Regist = require('./component/account/Regist');
 
 var Index = React.createClass({
   render: function () {

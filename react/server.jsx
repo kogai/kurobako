@@ -1,7 +1,7 @@
 var React = require('react');
-var Btn = require('asset/server/component/util/Btn');
-var Login = require('asset/server/component/account/Login');
-var Regist = require('asset/server/component/account/Regist');
+var Btn = require('./component/util/Btn');
+var Login = require('./component/account/Login');
+var Regist = require('./component/account/Regist');
 
 var Index = React.createClass({
   // getInitialState: function () {

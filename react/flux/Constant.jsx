@@ -1,5 +1,6 @@
 var keymirror = require('keymirror');
 
 module.exports = keymirror({
-  SPOT_CATEGORIES: null
+  ACCOUNT_LOGIN: null,
+  ACCOUNT_REGIST: null
 });
