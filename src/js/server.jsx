@@ -1,5 +1,6 @@
 var React = require('react');
 var Btn = require('asset/server/component/util/Btn');
+var Login = require('asset/server/component/account/Login');
 
 var Index = React.createClass({
   // getInitialState: function () {
@@ -14,6 +15,7 @@ var Index = React.createClass({
       <div>
         <h1>Hello, server.</h1>
         <Btn method='post' uri='/account/regist' name='アカウント登録' />
+        <Login />
       </div>
     );
   }
