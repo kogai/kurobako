@@ -10,18 +10,22 @@ var CHANGE_EVENT = 'change';
 // STATE
 var _contents = [];
 var _isFetching = false;
+var _isPosting = false;
 
+/*
 function fetchContent (contents) {
   _contents = contents;
   _isFetching = false;
   _page = 1;
 }
+*/
 
 var AppStore = assign({}, EventEmitter.prototype, {
   getState: function(){
     return {
       contents: _contents,
-      isFetching: _isFetching
+      isFetching: _isFetching,
+      isPosting: _isPosting
     };
   },
   emitChange: function(){
@@ -35,6 +39,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
 Dispatcher.register(function(action){
   switch(action.actionType){
     case Constant.ACCOUNT_REGIST:
+      console.log(action);
       // fetchContent(action.contents);
       AppStore.emitChange();
       break;

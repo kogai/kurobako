@@ -21,16 +21,20 @@ var config = {
 
 gulp.task('sass', function () {
   'use strict';
-  return (
-    gulp.src(config.src + '/sass/style.sass')
+  return gulp.src(config.src + '/sass/style.sass')
     .pipe(sourcemaps.init())
-    .pipe(sass())
+    .pipe(sass({
+      errLogToConsole: true,
+      sourceComments : 'normal'
+    }))
     .pipe(mifify())
     .pipe(sourcemaps.write('./'))
     .pipe(
       gulp.dest(config.dest)
     )
-  );
+    .on('error', function(err){
+      console.log(err);
+    });
 });
 
 gulp.task('react-base', function () {

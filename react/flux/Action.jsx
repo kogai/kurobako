@@ -2,9 +2,12 @@ var Dispatcher = require('./Dispatcher');
 var Constant = require('./Constant');
 
 module.exports = {
-  accountRegist: function (uri, page) {
+  postEnything: function (obj) {
     Dispatcher.dispatch({
-      actionType: Constant.ACCOUNT_LOGIN
+      actionType: Constant.POST,
+      method: obj.method,
+      uri: obj.uri,
+      name: obj.name
     });
   }
 };
