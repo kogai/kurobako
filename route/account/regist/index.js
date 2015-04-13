@@ -19,7 +19,8 @@ var makeNewUserModel = function(data) {
     password: password,
     verifyId: verifyId,
     isVerified: false,
-    bookList: []
+    lastModified: new Date(),
+    career: []
   });
 
   data.verifyId = verifyId;
@@ -127,6 +128,6 @@ module.exports = function (data) {
     .then(renderRouter)
     .fail(renderFailRouter)
     .done(function(data) {
-      logger.info(data);
+      logger.info(data.isRegisterd);
     });
 };

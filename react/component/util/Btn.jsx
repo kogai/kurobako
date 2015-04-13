@@ -7,14 +7,19 @@ var Btn = React.createClass({
     return Store.getState();
   },
   componentDidMount: function () {
-    Store.addChangeListener(this._postEvent);
+    Store.addChangeListener(this._getState);
   },
-  _postEvent: function (event) {
+  _getState: function () {
     this.setState({
       isNotPosting: Store.getState().isNotPosting
     });
+  },
+  _postEvent: function (event) {
     if(this.state.isNotPosting){
-      Action.postEnything({
+      Action.postEnything();
+    }
+    if(this.props.func && this.state.isNotPosting){
+      this.props.func({
         method: this.props.method,
         uri: this.props.uri,
         name: this.props.name
@@ -23,9 +28,9 @@ var Btn = React.createClass({
   },
   render: function () {
     return (
-      <div method={ this.props.method } uri={ this.props.uri } onClick={ this._postEvent } >
+      <button method={ this.props.method } uri={ this.props.uri } onClick={ this._postEvent } >
         { this.props.name }
-      </div>
+      </button>
     );
   }
 });
