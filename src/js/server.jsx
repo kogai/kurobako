@@ -1,5 +1,5 @@
 var React = require('react');
-var Btn = require('src/js/component/util/Btn.jsx');
+var Btn = require('asset/server/component/util/Btn');
 
 var Index = React.createClass({
   // getInitialState: function () {

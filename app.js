@@ -19,7 +19,7 @@ app.set('views', path.join(__dirname, 'view'));
 app.set('view engine', 'jade');
 app.set('port', process.env.PORT || 3000);
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'asset/public')));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({

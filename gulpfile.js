@@ -13,7 +13,8 @@ var react = require('gulp-react');
 var config = {
   env: 'development',
   src: './src',
-  dest: './asset/public'
+  dest: './asset/public',
+  destServer: './asset/server'
 };
 
 gulp.task('sass', function () {
@@ -47,7 +48,7 @@ gulp.task('react-client', function() {
   .bundle()
   .pipe
     (source(
-      'bundle.' + entryPoint + '.js'
+      'bundle.js'
     )
   )
   .pipe(gulp.dest(config.dest));
@@ -60,7 +61,7 @@ gulp.task('react-server', function () {
       config.src + '/js/**/**/*.jsx'
     ])
     .pipe(react())
-    .pipe(gulp.dest(config.dest + '/'))
+    .pipe(gulp.dest(config.destServer + '/'))
     .on('error', function(err){
       console.log(err);
     });
@@ -105,7 +106,7 @@ gulp.task('react', [
 
 gulp.task('compile', [
   'sass',
-  'browserify',
+  'react',
   'img',
 ]);
 
@@ -129,7 +130,7 @@ gulp.task('default', [
     config.src + '/js/*.js',
     config.src + '/js/**/*.js',
     config.src + '/js/**/**/*.js'
-  ], ['browserify']);
+  ], ['react']);
   gulp.watch([
     config.src + '/image/*',
     config.src + '/image/**/*',
