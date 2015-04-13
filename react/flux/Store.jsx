@@ -1,5 +1,6 @@
 var Dispatcher = require('./Dispatcher');
 var Constant = require('./Constant');
+var Constant = require('./Constant');
 
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
@@ -10,22 +11,18 @@ var CHANGE_EVENT = 'change';
 // STATE
 var _contents = [];
 var _isFetching = false;
-var _isPosting = false;
+var _isNotPosting = false;
 
-/*
-function fetchContent (contents) {
-  _contents = contents;
-  _isFetching = false;
-  _page = 1;
-}
-*/
+var postPre = function () {
+  _isNotPosting = true;
+};
 
-var AppStore = assign({}, EventEmitter.prototype, {
+var Store = assign({}, EventEmitter.prototype, {
   getState: function(){
     return {
       contents: _contents,
       isFetching: _isFetching,
-      isPosting: _isPosting
+      isNotPosting: _isNotPosting
     };
   },
   emitChange: function(){
@@ -38,14 +35,11 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
 Dispatcher.register(function(action){
   switch(action.actionType){
-    case Constant.ACCOUNT_REGIST:
-      console.log(action);
-      // fetchContent(action.contents);
-      AppStore.emitChange();
-      break;
-    default:
+    case Constant.POST_PRE:
+      postPre();
+      Store.emitChange();
       break;
   }
 });
 
-module.exports = AppStore;
+module.exports = Store;

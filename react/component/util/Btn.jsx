@@ -4,17 +4,16 @@ var Action = require('../../flux/Action');
 
 var Btn = React.createClass({
   getInitialState: function () {
-    console.log('getInitialState');
     return Store.getState();
   },
-  componentWillMount: function () {
-    this.setState({
-      isPosting: Store.getState().isPosting
-    });
+  componentDidMount: function () {
+    Store.addChangeListener(this._postEvent);
   },
-  _postEvent: function () {
-    console.log('_postEvent');
-    if(!this.state.isPosting){
+  _postEvent: function (event) {
+    this.setState({
+      isNotPosting: Store.getState().isNotPosting
+    });
+    if(this.state.isNotPosting){
       Action.postEnything({
         method: this.props.method,
         uri: this.props.uri,
@@ -24,8 +23,8 @@ var Btn = React.createClass({
   },
   render: function () {
     return (
-      <div method={this.props.method} uri={this.props.uri} onClick={this._postEvent} >
-        {this.props.name}
+      <div method={ this.props.method } uri={ this.props.uri } onClick={ this._postEvent } >
+        { this.props.name }
       </div>
     );
   }
