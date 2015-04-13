@@ -4,6 +4,7 @@ var verify = require('route/account/verify');
 var regist = require('route/account/regist');
 var login = require('route/account/login');
 var localPassport = login.localPassport;
+var bundle = require('asset/react/server');
 
 router.get('/login/success', function(req, res) {
   'use strict';
@@ -48,7 +49,8 @@ router.post('/regist', function(req, res) {
 router.get('/', function(req, res) {
   'use strict';
   res.render('account', {
-    title: 'アカウント'
+    title: 'アカウント',
+    bundle: bundle
   });
 });
 

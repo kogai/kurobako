@@ -10,6 +10,7 @@ var credentialSession = require('util/credential')('session');
 var logger = require('util/logger').getLogger('app');
 
 var route = require('route/');
+var routeAccount = require('route/account');
 
 var app = express();
 var server = http.createServer(app);
@@ -36,7 +37,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Routing
 app.use('/', route);
+app.use('/account', routeAccount);
 
 app.use(function(req, res, next) {
     'use strict';
