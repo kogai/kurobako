@@ -23,7 +23,7 @@ var CompanySchema = new mongoose.Schema({
     workingHours: String,
     holidayWork: Number,
     paidVacationDegestion: Number
-  }],
+  }]
 });
 var CompanyModel = db.model('Company', CompanySchema );
 

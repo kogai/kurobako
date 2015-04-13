@@ -6,11 +6,11 @@ var login = require('route/account/login');
 var localPassport = login.localPassport;
 
 router.get('/login/success', function(req, res) {
+  'use strict';
   res.redirect(303, '/');
 });
 
-router.post(
-  '/login',
+router.post('/login',
   localPassport.authenticate(
     'local', {
       successRedirect: '/',
@@ -18,16 +18,19 @@ router.post(
     }
   ),
   function(req, res) {
+    'use strict';
     res.redirect(307, '/aaa');
   }
 );
 
 router.post('/logout', function(req, res) {
+  'use strict';
   delete req.session.passport.user;
   res.send('ログアウト完了しました。');
 });
 
 router.get('/verify', function(req, res) {
+  'use strict';
   verify({
     res: res,
     req: req
@@ -35,6 +38,7 @@ router.get('/verify', function(req, res) {
 });
 
 router.post('/regist', function(req, res) {
+  'use strict';
   regist({
     res: res,
     req: req
@@ -42,6 +46,7 @@ router.post('/regist', function(req, res) {
 });
 
 router.get('/', function(req, res) {
+  'use strict';
   res.render('account', {
     title: 'アカウント'
   });

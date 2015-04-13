@@ -28,13 +28,14 @@ gulp.task('sass', function () {
     .pipe(
       gulp.dest(config.dest)
     )
-  )
+  );
 });
 
 gulp.task('react-client', function() {
+  'use strict';
   var opt = {
     entries: [
-      config.src + '/js/client.jsx',
+      config.src + '/js/client.jsx'
     ],
     extensions: ['.jsx'],
     debug: true
@@ -46,15 +47,12 @@ gulp.task('react-client', function() {
   .transform('reactify')
   .transform('uglifyify')
   .bundle()
-  .pipe
-    (source(
-      'bundle.js'
-    )
-  )
+  .pipe(source('bundle.js'))
   .pipe(gulp.dest(config.dest));
 });
 
 gulp.task('react-server', function () {
+  'use strict';
   return gulp.src([
       config.src + '/js/*.jsx',
       config.src + '/js/**/*.jsx',
@@ -68,6 +66,7 @@ gulp.task('react-server', function () {
 });
 
 gulp.task('pngmin', function () {
+  'use strict';
   return (
     gulp.src([
       config.src + '/image/*.png',
@@ -81,6 +80,7 @@ gulp.task('pngmin', function () {
 });
 
 gulp.task('copy', function () {
+  'use strict';
   return (
     gulp.src([
       config.src + '/image/*.jpg',
@@ -88,7 +88,7 @@ gulp.task('copy', function () {
       config.src + '/image/**/**/*.jpg',
       config.src + '/image/*.gif',
       config.src + '/image/**/*.gif',
-      config.src + '/image/**/**/*.gif',
+      config.src + '/image/**/**/*.gif'
     ])
     .pipe(gulp.dest(config.dest + '/image'))
   );
@@ -101,17 +101,18 @@ gulp.task('img', [
 
 gulp.task('react', [
   'react-client',
-  'react-server',
+  'react-server'
 ]);
 
 gulp.task('compile', [
   'sass',
   'react',
-  'img',
+  'img'
 ]);
 
 gulp.task('isProduction', function(){
-  config.env = 'production'
+  'use strict';
+  config.env = 'production';
 });
 
 gulp.task('default', [

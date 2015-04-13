@@ -9,6 +9,7 @@ var LocalStrategyField = {
 };
 
 var LocalStrategyCallBack = function(mail, password, done) {
+  'use strict';
   var fetchUser = function(mail, password, done) {
     var d = Q.defer();
     modelUser.findOne({
@@ -25,32 +26,31 @@ var LocalStrategyCallBack = function(mail, password, done) {
       }
       d.resolve({
         password: password,
-        user: user,
-        done: done
+        user: user
       });
     });
     return d.promise;
   };
 
   var comparePassword = function(data) {
-    var password = data.password;
+    var requestedPassword = data.password;
     var user = data.user;
-    var done = data.done;
 
-    user.comparePassword(password, user.password, function(err, isMatch) {
-      if (err) return done(err);
+    user.comparePassword(requestedPassword, user.password, function(err, isMatch) {
+      if (err) {
+        return done(err);
+      }
       if (isMatch) {
         return done(null, user);
-      } else {
-        return done(null, false, {
-          message: 'パスワードが間違っています。'
-        });
       }
+      return done(null, false, {
+        message: 'パスワードが間違っています。'
+      });
     });
   };
 
   fetchUser(mail, password, done)
-    .done(comparePassword);
+  .then(comparePassword);
 };
 
 passport.use(

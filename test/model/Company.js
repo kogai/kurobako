@@ -25,7 +25,7 @@ describe('Companyモデルのテスト', function () {
         workingHours: '8~10',
         holidayWork: 2,
         paidVacationDegestion: 0.5
-      }],
+      }]
     });
 
     newCompany.save(function (newCompanyErr) {

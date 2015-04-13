@@ -70,10 +70,10 @@ var UserSchema = new mongoose.Schema({
   },
   verifyId: String,
   isVerified: Boolean,
-  lastModified: Date, 
+  lastModified: Date,
   career: [{
     companyId: String,
-    companyName: String,
+    companyName: String
   }]
 });
 UserSchema.methods.comparePassword = comparePassword;

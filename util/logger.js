@@ -18,4 +18,4 @@ log4js_extend(log4js, {
   format: "[@file:@line:@column]"
 });
 
-module.exports = log4js
+module.exports = log4js;

@@ -4,7 +4,11 @@ var Btn = require('./component/util/Btn.jsx');
 var Index = React.createClass({
   render: function () {
     return (
-      <h1>"Hello, browser."</h1>
+      <div>
+        <h1>Hello, browser.</h1>
+        <Login />
+        <Regist />
+      </div>
     );
   }
 });
