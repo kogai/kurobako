@@ -8,19 +8,18 @@ var pngmin = require('gulp-pngmin');
 var mifify = require('gulp-minify-css');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
-var gulp = require('gulp');
 var react = require('gulp-react');
 
 var config = {
   env: 'development',
-  src: './asset/src',
+  src: './src',
   dest: './asset/public'
 };
 
 gulp.task('sass', function () {
   'use strict';
   return (
-    gulp.src('./src/sass/style.sass')
+    gulp.src(config.src + '/sass/style.sass')
     .pipe(sourcemaps.init())
     .pipe(sass())
     .pipe(mifify())
@@ -31,34 +30,35 @@ gulp.task('sass', function () {
   )
 });
 
-var browserifyRegister = function (entryPoint) {
-  'use strict';
-  var debug = true;
-  if(config.env === 'production'){
-    debug = false;
-  }
-  browserify({
+gulp.task('react-client', function() {
+  var opt = {
     entries: [
-      config.src + '/js/' + entryPoint + '.jsx',
+      config.src + '/js/client.jsx',
     ],
     extensions: ['.jsx'],
-    debug: debug
-  })
+    debug: true
+  };
+  if(config.env === 'production'){
+    opt.debug = false;
+  }
+  return browserify(opt)
   .transform('reactify')
   .transform('uglifyify')
   .bundle()
-  .pipe(source('bundle.' + entryPoint + '.js'))
+  .pipe
+    (source(
+      'bundle.' + entryPoint + '.js'
+    )
+  )
   .pipe(gulp.dest(config.dest));
-};
-
-['client'].forEach(function(node){
-  gulp.task('browserify-' + node, function() {
-    return browserifyRegister(node);
-  });
 });
 
-gulp.task('react', function () {
-  return gulp.src(config.src + '/js/server.jsx')
+gulp.task('react-server', function () {
+  return gulp.src([
+      config.src + '/js/*.jsx',
+      config.src + '/js/**/*.jsx',
+      config.src + '/js/**/**/*.jsx'
+    ])
     .pipe(react())
     .pipe(gulp.dest(config.dest + '/'))
     .on('error', function(err){
@@ -98,9 +98,9 @@ gulp.task('img', [
   'copy'
 ]);
 
-gulp.task('browserify', [
-  'browserify-client',
-  'react',
+gulp.task('react', [
+  'react-client',
+  'react-server',
 ]);
 
 gulp.task('compile', [
@@ -125,7 +125,10 @@ gulp.task('default', [
   gulp.watch([
     config.src + '/js/*.jsx',
     config.src + '/js/**/*.jsx',
-    config.src + '/js/**/**/*.jsx'
+    config.src + '/js/**/**/*.jsx',
+    config.src + '/js/*.js',
+    config.src + '/js/**/*.js',
+    config.src + '/js/**/**/*.js'
   ], ['browserify']);
   gulp.watch([
     config.src + '/image/*',
