@@ -42,15 +42,22 @@ app.use('/', route);
 app.use('/account', routeAccount);
 
 app.use(function(req, res, next) {
-    'use strict';
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+  'use strict';
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
-server.listen(
-  app.get('port'),
-  function () {
+app.use(function(err, req, res, next) {
+  'use strict';
+  logger.info(err);
+  res.status(err.status || 500);
+  res.render('404', {
+      message: err.message
+  });
+});
+
+server.listen(app.get('port'), function () {
     'use strict';
     logger.info('Express server listening on port ' + server.address().port);
   }
