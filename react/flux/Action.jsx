@@ -9,7 +9,6 @@ module.exports = {
     });
   },
   postRegist: function (obj) {
-    console.log(obj.uri);
     request
       .post(obj.uri)
       .send({
@@ -20,7 +19,6 @@ module.exports = {
         if(err){
           console.log(err);
         }
-        console.log(res);
         Dispatcher.dispatch({
           actionType: Constant.POST_REGIST
         });
