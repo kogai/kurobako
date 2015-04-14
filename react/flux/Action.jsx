@@ -1,6 +1,7 @@
 var Dispatcher = require('./Dispatcher');
 var Constant = require('./Constant');
 var request = require('superagent');
+var cookie = require('react-cookie');
 
 module.exports = {
   postEnything: function () {
@@ -19,8 +20,11 @@ module.exports = {
         if(err){
           console.log(err);
         }
+        var token = res.text;
+        cookie.save('token', token);
         Dispatcher.dispatch({
-          actionType: Constant.POST_REGIST
+          actionType: Constant.POST_REGIST,
+          token: token
         });
      });
   }

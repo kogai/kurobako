@@ -17,7 +17,7 @@ var hashPassword = function(next) {
     var d = Q.defer();
     bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
       if (err) {
-        logger(err);
+        logger.info(err);
         return next(err);
       }
 
@@ -30,7 +30,7 @@ var hashPassword = function(next) {
     var d = Q.defer();
     bcrypt.hash(user.password, salt, function(err, hash) {
       if (err) {
-        logger(err);
+        logger.info(err);
         return next(err);
       }
       user.password = hash;
@@ -50,7 +50,7 @@ var comparePassword = function(candidatePassword, hashedPassword, callBack) {
   'use strict';
   bcrypt.compare(candidatePassword, hashedPassword, function(err, isMatch) {
     if (err) {
-      logger(err);
+      logger.info(err);
       return callBack(err);
     }
     callBack(null, isMatch);

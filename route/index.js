@@ -5,15 +5,10 @@ var bundle = require('asset/react/server');
 
 router.get('/', function(req, res) {
   'use strict';
-  var isLogined = req.session.passport.user;
-  if (isLogined) {
-    res.render('index', {
-      title: 'Home',
-      bundle: bundle
-    });
-  } else {
-    res.redirect(303, '/account');
-  }
+  res.render('index', {
+    title: 'Home',
+    bundle: bundle
+  });
 });
 
 module.exports = router;
