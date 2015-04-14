@@ -1,12 +1,10 @@
 var React = require('react');
-var Btn = require('../../component/util/Btn');
+var VerifyForm = require('../../component/account/VerifyForm');
 
-var Login = React.createClass({
+module.exports = React.createClass({
   render: function () {
     return (
-      <Btn method='post' uri='/account/login' name='ログイン' />
+      <VerifyForm uri='/account/login' name='ログイン' />
     );
   }
 });
-
-module.exports = Login;

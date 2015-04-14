@@ -9,6 +9,7 @@ module.exports = {
     });
   },
   postRegist: function (obj) {
+    console.log(obj.uri);
     request
       .post(obj.uri)
       .send({
@@ -17,7 +18,7 @@ module.exports = {
       })
       .end(function(err, res){
         if(err){
-          return console.log(err);
+          console.log(err);
         }
         console.log(res);
         Dispatcher.dispatch({

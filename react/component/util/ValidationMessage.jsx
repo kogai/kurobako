@@ -3,7 +3,7 @@ var React = require('react');
 module.exports = React.createClass({
   _style: {
     'color': '#c00',
-    "fontSize": "12px"
+    "fontSize": "10px"
   },
   render: function () {
     return (

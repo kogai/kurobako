@@ -1,3 +1,10 @@
 var React = require('react');
 var Index = require('./index');
-module.exports = React.renderToString(<Index />);
+var Router = require('react-router');
+
+
+Router.run(Index, function (Handler) {
+  React.renderToString(<Handler/>);
+});
+
+// React.renderToString(<Index/>);

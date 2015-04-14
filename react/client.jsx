@@ -1,3 +1,10 @@
 var React = require('react');
 var Index = require('./index');
-React.render(<Index />, document.body);
+var Router = require('react-router');
+
+
+Router.run(Index, function (Handler) {
+  React.render(<Handler/>, document.body);
+});
+
+// React.render(<Index/>, document.body);

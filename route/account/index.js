@@ -6,21 +6,10 @@ var login = require('route/account/login');
 var localPassport = login.localPassport;
 var bundle = require('asset/react/server');
 
-router.get('/login/success', function(req, res) {
-  'use strict';
-  res.redirect(303, '/');
-});
-
 router.post('/login',
-  localPassport.authenticate(
-    'local', {
-      successRedirect: '/',
-      failureRedirect: '/account/fail'
-    }
-  ),
-  function(req, res) {
+  localPassport.authenticate('local', {failureRedirect: '/account/fail'}), function(req, res) {
     'use strict';
-    res.redirect(307, '/aaa');
+    res.redirect(303, '../#');
   }
 );
 

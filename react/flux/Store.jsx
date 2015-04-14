@@ -11,13 +11,14 @@ var CHANGE_EVENT = 'change';
 var _contents = [];
 var _isFetching = false;
 var _isNotPosting = true;
+var _isLogined = false;
 
 var togglePostingState = function () {
   _isNotPosting = !_isNotPosting;
 };
 
 var postRegist = function () {
-  console.log('postRegist');
+  location.href = '/';
 };
 
 var Store = assign({}, EventEmitter.prototype, {
@@ -38,13 +39,13 @@ var Store = assign({}, EventEmitter.prototype, {
 
 Dispatcher.register(function(action){
   switch(action.actionType){
+
     case Constant.POST_PRE:
-      console.log(action.actionType);
       togglePostingState();
       Store.emitChange();
       break;
+
     case Constant.POST_REGIST:
-      console.log(action);
       postRegist();
       togglePostingState();
       Store.emitChange();
