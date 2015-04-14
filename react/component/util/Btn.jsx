@@ -2,7 +2,10 @@ var React = require('react');
 var Store = require('../../flux/Store');
 var Action = require('../../flux/Action');
 
-var Btn = React.createClass({
+module.exports = React.createClass({
+  _style: {
+    
+  },
   getInitialState: function () {
     return Store.getState();
   },
@@ -34,5 +37,3 @@ var Btn = React.createClass({
     );
   }
 });
-
-module.exports = Btn;

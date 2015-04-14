@@ -8,60 +8,67 @@ var Btn = require('../../component/util/Btn');
 var Input = require('../../component/util/Input');
 var ValidationMessage = require('../../component/util/ValidationMessage');
 
-var Regist = React.createClass({
+module.exports = React.createClass({
   getInitialState: function () {
     return Store.getState();
   },
   componentDidMount: function () {
     this.setState({
-      isVaildInput: true
+      isVaildMail: false,
+      isVaildPassword: false,
     });
   },
-  _validate: function (mail, password) {
+  _validate: function () {
     return (
-      validator.isEmail(mail) && validator.isAlphanumeric(password) && validator.isLength(password, 8)
+      this.state.isVaildMail && this.state.isVaildPassword
     );
   },
   _postRegist: function (thisProps) {
     thisProps.mail = this.state.mail;
     thisProps.password = this.state.password;
-    var isVaildInput = this._validate(this.state.mail, this.state.password);
+    var isVaildInput = this._validate();
     this.setState({
       isVaildInput: isVaildInput
     });
     if(isVaildInput){
-      console.log('vaild');
       Action.postRegist(thisProps);
-    }else{
-      console.log('invaild');
     }
   },
-  _handleMailChange: function (event) {
+  _validateMailChange: function (event) {
+    var mail = event.target.value;
     this.setState({
-      mail: event.target.value
+      mail: mail,
+      isVaildMail: validator.isEmail(mail)
     });
   },
-  _handlePasswordChange: function (event) {
+  _validatePasswordChange: function (event) {
+    var password = event.target.value;
     this.setState({
-      password: event.target.value
+      password: password,
+      isVaildPassword: validator.isAlphanumeric(password) && validator.isLength(password, 8)
     });
   },
   render: function () {
-    var validationMessage;
-    if(!this.state.isVaildInput){
-      validationMessage = 'no';
+    var mailValidationMessage;
+    var passwordValidationMessage;
+    if(!this.state.isVaildMail){
+      mailValidationMessage = 'メールアドレスを入力して下さい';
     }else{
-      validationMessage = '';
+      mailValidationMessage = '';
+    }
+    if(!this.state.isVaildPassword){
+      passwordValidationMessage = 'パスワードは英数字8文字以上を入力して下さい';
+    }else{
+      passwordValidationMessage = '';
     }
     return (
       <div>
-        <input type="mail" value={this.state.mail} placeholder='メールアドレス' onChange={this._handleMailChange}  />
-        <input type="password" value={this.state.password} placeholder='パスワード' onChange={this._handlePasswordChange}  />
+        <input type="mail" value={this.state.mail} placeholder='メールアドレス' onChange={this._validateMailChange}  />
+        <ValidationMessage message={ mailValidationMessage } />
+        <input type="password" value={this.state.password} placeholder='パスワード' onChange={this._validatePasswordChange}  />
+        <ValidationMessage message={ passwordValidationMessage } />
         <Btn method='post' uri='/account/regist' name='新規登録' func={ this._postRegist }/>
-        <ValidationMessage message={validationMessage} />
       </div>
     );
   }
 });
-
-module.exports = Regist;

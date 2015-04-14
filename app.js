@@ -19,6 +19,7 @@ var io = require('socket.io').listen(server);
 app.set('views', path.join(__dirname, 'view'));
 app.set('view engine', 'jade');
 app.set('port', process.env.PORT || 3000);
+app.locals.pretty = true;
 
 app.use(express.static(path.join(__dirname, 'asset/public')));
 
