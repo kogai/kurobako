@@ -1,7 +1,6 @@
 module.exports = function(property){
   'use strict';
   var credential;
-  console.log('process.env.env', process.env.env);
   switch (process.env.env){
     case 'ci':
       credential = process.env;

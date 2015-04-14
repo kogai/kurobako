@@ -9,9 +9,12 @@ module.exports = {
     });
   },
   postRegist: function (obj) {
-    console.log(obj);
     request
       .post(obj.uri)
+      .send({
+        mail: obj.mail,
+        password: obj.password
+      })
       .end(function(err, res){
         if(err){
           return console.log(err);

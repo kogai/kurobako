@@ -110,12 +110,12 @@ var renderRouter = function (data) {
 
 var renderFailRouter = function (data) {
   'use strict';
+  console.log(data.isRegisterdError);
   var res = data.res;
   var d = Q.defer();
-
   var statusMessage = 'アカウントの登録に失敗しました。\n登録済みのメールアドレスです。';
   res.send(statusMessage);
-  d.resolve(data);
+  d.resolve(err);
 
   return d.promise;
 };
