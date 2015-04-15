@@ -8,8 +8,9 @@ module.exports = function (req, res) {
   var userId = req.session.passport.user;
   logger.info('user-id:' + userId);
 
-  Router.run(Index, function (Handler) {
-    renderToStringAsync(<Handler/>, function (err, markup) {
+  Router.run(Index, function (Handler, state) {
+    var params = state.params;
+    renderToStringAsync(<Handler params={ params } />, function (err, markup) {
       res.render('index', { bundle: markup })
     });
   });

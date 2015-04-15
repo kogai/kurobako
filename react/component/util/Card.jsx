@@ -1,23 +1,25 @@
 var React = require('react');
+var Router = require('react-router');
+var Link = Router.Link;
 
 var Card = React.createClass({
   render: function() {
-    var link = "/company/" + this.props.pageId;
+    var link = "/page/:" + this.props.pageId;
     return (
-      <div>
-        <a href={ link }>
+      <li>
+        <Link to={ link } >
           { this.props.name }
-        </a>
-      </div>
+        </Link>
+      </li>
     );
   }
 
 });
 
 module.exports = Card;
+
 /*
   name={company.name}
-  key={ company.pageId }
   industry={ company.industry }
   annualSale={ company.annualSale }
   numberOfEmployees={ company.numberOfEmployees }

@@ -49,7 +49,7 @@ var List = React.createClass({
     });
   },
   _companies: [],
-  render: function() {
+  render: function () {
     var Companies;
     console.log('this.state.companies.length', this.state.companies.length);
     console.log('this._companies.length', this._companies.length);
@@ -72,43 +72,11 @@ var List = React.createClass({
       });
     }
     return (
-      <div>
-        Dummy
+      <ul>
         { Companies }
-      </div>
+      </ul>
     );
   }
 });
 
 module.exports = List;
-
-
-/*
-- list
-  - map ->
-
-CompanyModel
-
-  name: {
-    type: String,
-  	required : true
-  },
-  industry: String,
-  pageId: {
-    type: Number,
-    required: true,
-    index: {
-      unique: true
-    }
-  },
-  annualSale: Number,
-  numberOfEmployees: Number,
-  reputation: [{
-    userId: String,
-    wageLevel: String,
-    workingHours: String,
-    holidayWork: Number,
-    paidVacationDegestion: Number
-  }]
-
-*/
