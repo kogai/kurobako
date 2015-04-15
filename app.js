@@ -11,6 +11,7 @@ var logger = require('util/logger').getLogger('app');
 
 var route = require('route/');
 var routeAccount = require('route/account');
+var routeApi = require('route/api');
 
 var app = express();
 var server = http.createServer(app);
@@ -41,6 +42,7 @@ app.use(passport.session());
 // Routing
 app.use('/', route);
 app.use('/account', routeAccount);
+app.use('/api', routeApi);
 
 app.use(function(req, res, next) {
   'use strict';
