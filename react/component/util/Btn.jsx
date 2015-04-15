@@ -4,7 +4,7 @@ var Action = require('../../flux/Action');
 
 module.exports = React.createClass({
   _style: {
-    
+
   },
   getInitialState: function () {
     return Store.getState();

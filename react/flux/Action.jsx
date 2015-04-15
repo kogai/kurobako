@@ -10,6 +10,7 @@ module.exports = {
     });
   },
   postRegist: function (obj) {
+    var _self = this;
     request
       .post(obj.uri)
       .send({
@@ -18,14 +19,26 @@ module.exports = {
       })
       .end(function(err, res){
         if(err){
-          console.log(err);
+          _self.postError(err);
+          return;
         }
-        var token = res.text;
-        cookie.save('token', token);
-        Dispatcher.dispatch({
-          actionType: Constant.POST_REGIST,
-          token: token
-        });
+        var token;
+        try{
+          token = JSON.parse(res.text).token;
+          console.log('token', token);
+          cookie.save('token', token);
+        }catch(error){
+          token = null;
+          _self.postError(error);
+        }finally{
+          Dispatcher.dispatch({
+            actionType: Constant.POST_REGIST,
+            token: token
+          });
+        }
      });
+  },
+  postError: function (error) {
+    console.log(error);
   }
 };

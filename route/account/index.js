@@ -9,13 +9,14 @@ var logger = require('util/logger').getLogger('route');
 var hashToken = require('util/crypt').hashToken;
 
 router.post('/login',
-  localPassport.authenticate('local', { failureRedirect: '/account/fail' }), function(req, res) {
+  localPassport.authenticate('local', { failureRedirect: '/' }), function(req, res) {
     'use strict';
     var userId = req.session.passport.user;
+    logger.info('user-id:' + userId);
     hashToken(userId)
     .done(function (token) {
-      logger.info('user-id:' + userId + ' token:' + token + ' logined.');
-      res.send(token);
+      logger.info('token:' + token);
+      res.send({token: token});
     });
   }
 );

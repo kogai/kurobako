@@ -46,6 +46,8 @@ app.use('/api', routeApi);
 
 app.use(function(req, res, next) {
   'use strict';
+  var userId = req.session.passport.user;
+  logger.info('user-id:' + userId);
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -55,7 +57,7 @@ app.use(function(err, req, res, next) {
   'use strict';
   logger.info(err);
   res.status(err.status || 500);
-  res.render('404', {
+  res.render('error', {
       message: err.message
   });
 });

@@ -63,7 +63,7 @@ module.exports = React.createClass({
     }
     return (
       <div>
-        <input type="mail" value={this.state.mail} placeholder='メールアドレス' onChange={this._validateMailChange}  />
+        <input type="mail" value={this.state.mail} placeholder='メールアドレス' onChange={this._validateMailChange} onKeyDown={ this._postEventKey }  />
         <ValidationMessage message={ mailValidationMessage } />
         <input type="password" value={this.state.password} placeholder='パスワード' onChange={this._validatePasswordChange}  />
         <ValidationMessage message={ passwordValidationMessage } />
