@@ -1,42 +1,87 @@
 var React = require('react');
+var ReactAsync = require('react-async');
 var request = require('superagent');
-var Promise = require('es6-promise').Promise;
-var AsyncState = require('react-router').AsyncState;
 
+var Action = require('../../flux/Action');
+var Store = require('../../flux/Store');
 var Card = require('../../component/util/Card');
 
 var List = React.createClass({
-  mixins: [AsyncState],
-  statics:{
-    getInitialAsyncState: function (path, query, setState) {
-      console.log('getInitialAsyncState');
-      return new Promise(function (resolve, reject) {
-        request
-        .get('/api/list')
-        .end(function (err, res) {
-          if(err){
-            reject(err);
-          }
-          console.log(res);
-          setState({
-          });
-          resolve();
-        });
+  mixins: [ ReactAsync.Mixin ],
+  getInitialState: function () {
+    console.log('getInitialState');
+    return Store.getState();
+  },
+  getInitialStateAsync: function (callback) {
+    console.log('getInitialStateAsync');
+    this._getInitialAsyncState(callback);
+  },
+  componentDidMount: function () {
+    this._getInitialAsyncState(function(err, companies){});
+    Store.addChangeListener(this._getAsyncState);
+  },
+  _getAsyncState: function () {
+    this.setState({
+      companies: Store.getState().companies
+    });
+  },
+  _getInitialAsyncState: function (callback) {
+    var _self = this;
+    request
+    .get('http://localhost:3000/api/list')
+    .end(function (err, res) {
+      if(err){
+        console.log(err);
+        callback(err);
+      }
+      var companies;
+      try{
+        companies = res.body;
+      }catch(e){
+        companies = [];
+      }
+      _self.setState({
+        companies: companies
+      });
+      _self._companies = companies;
+      Action.getCompanies(companies);
+      callback(null, companies);
+    });
+  },
+  _companies: [],
+  render: function() {
+    var Companies;
+    console.log('this.state.companies.length', this.state.companies.length);
+    console.log('this._companies.length', this._companies.length);
+    if(this._companies === 0 ){
+      Companies = "<EmptyWrapper />";
+    }else{
+      Companies = this._companies.map(function (company) {
+        console.log(company.name);
+        return (
+          <Card
+            name={company.name}
+            key={ company.pageId }
+            pageId={ company.pageId }
+            industry={ company.industry }
+            annualSale={ company.annualSale }
+            numberOfEmployees={ company.numberOfEmployees }
+            reputation={ company.reputation }
+          />
+        );
       });
     }
-  },
-  render: function() {
-    console.log('render');
     return (
       <div>
-        <Card name='DummyACompany' pageId='1000' />
+        Dummy
+        { Companies }
       </div>
     );
   }
-
 });
 
 module.exports = List;
+
 
 /*
 - list
@@ -66,54 +111,4 @@ CompanyModel
     paidVacationDegestion: Number
   }]
 
-*/
-
-/** @jsx React.DOM
-var React = require("react");
-var Promise = require('es6-promise').Promise;
-var AsyncState = require('react-router').AsyncState;
-
-var SurveyTable = require('./survey_table');
-
-var ListSurveys = React.createClass({
-  mixins:[AsyncState],
-
-  statics:{
-    getInitialAsyncState: function(path, query, setState){
-      return new Promise(function(resolve, reject){
-        setTimeout(function () {
-          setState({
-            surveys:[
-              {
-                id: 'asd123',
-                uri: 'asd123',
-                editUri: 'ad123',
-                title: 'Superhero is mashup',
-                publishedDate: new Date(),
-                modifiedDate: new Date(),
-                activity: [121,32,54,12,546]
-              }
-            ]
-          })
-          resolve();
-        }, 5000);
-      });
-    }
-  },
-
-  render: function(){
-    if(!this.state.surveys){
-      return <div>Loading ... </div>
-    }
-
-    return (
-      <div className='list-surveys'>
-        <h1>Active Surveys</h1>
-        <SurveyTable surveys={this.state.surveys}/>
-      </div>
-    );
-  }
-});
-
-module.exports = ListSurveys;
 */

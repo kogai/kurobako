@@ -9,7 +9,7 @@ var RouteHandler = Router.RouteHandler;
 
 var Login = require('./component/account/Login');
 var Regist = require('./component/account/Regist');
-var List = require('./component/list/Index');
+var List = require('./component/list/List');
 
 var IsNotLogined = React.createClass({
   render: function () {
@@ -58,14 +58,16 @@ var Index = React.createClass({
 var App = React.createClass({
   render: function () {
     return (
-      <RouteHandler />
+      <div>
+        <List />
+        <RouteHandler />
+      </div>
     );
   }
 });
 
 var routes = (
   <Route name="app" path="/" handler={ App }>
-    <Route name="list" handler={ List }/>
     <DefaultRoute handler={ Index }/>
   </Route>
 );

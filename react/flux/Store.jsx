@@ -10,6 +10,7 @@ var CHANGE_EVENT = 'change';
 
 // STATE
 var _contents = [];
+var _companies = [];
 var _isFetching = false;
 var _isNotPosting = true;
 var _isLogined = false;
@@ -24,10 +25,17 @@ var postRegist = function (token) {
   _token = token;
 };
 
+var getCompanies = function (companies) {
+  console.log('getCompanies.companies.length', companies.length);
+  _companies = companies;
+};
+
 var Store = assign({}, EventEmitter.prototype, {
   getState: function () {
+    console.log('getState:', _companies.length);
     return {
       contents: _contents,
+      companies: _companies,
       isFetching: _isFetching,
       isNotPosting: _isNotPosting,
       isLogined: _isLogined,
@@ -38,6 +46,7 @@ var Store = assign({}, EventEmitter.prototype, {
     this.emit(CHANGE_EVENT);
   },
   addChangeListener: function (callback) {
+    console.log('addChangeListener');
     this.on(CHANGE_EVENT, callback);
   }
 });
@@ -53,6 +62,12 @@ Dispatcher.register(function(action){
     case Constant.POST_REGIST:
       togglePostingState();
       postRegist(action.token);
+      Store.emitChange();
+      break;
+
+    case Constant.GET_COMPANIES:
+      console.log('action.companies.length', action.companies.length);
+      getCompanies(action.companies);
       Store.emitChange();
       break;
   }

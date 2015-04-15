@@ -40,5 +40,12 @@ module.exports = {
   },
   postError: function (error) {
     console.log(error);
+  },
+  getCompanies: function (companies) {
+    console.log('companies.length', companies.length);
+    Dispatcher.dispatch({
+      actionType: Constant.GET_COMPANIES,
+      companies: companies
+    });
   }
 };
